@@ -18,7 +18,6 @@ var pool = new Pool({
 (async () => {
     client = await pool.connect();
     client.query("create table if not exists products (id UUID primary key, name STRING, desc_text STRING, price DECIMAL)");
-    client.query("create table ")
     // console.log(client)
 })()
 
