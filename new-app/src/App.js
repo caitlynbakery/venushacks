@@ -13,13 +13,11 @@ import Home from "./pages/Home";
 
 
 function App() {
-  // const [message, setMessage] = useState("");
+  
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/message")
-  //     .then((res) => res.json())
-  //     .then((data) => setMessage(data.message));
-  // }, []);
+  
+
+
 
   return (
     <Router>
@@ -31,10 +29,10 @@ function App() {
                     element={<Home />}
                 />
                 <Route path="/search" element={<Search />} />
-                <Route
+                {/* <Route
                     path="/product"
                     element={<Products />}
-                />
+                /> */}
             </Routes>
         </Router>
   );
