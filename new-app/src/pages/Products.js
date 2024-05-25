@@ -1,5 +1,6 @@
-export const Products = () => {
-    return (
-        <h1>Products Page</h1>
-    );
+import React, { useState, useEffect } from "react";
+
+function Products() {
+
 }
+export default Products

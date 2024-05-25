@@ -1,5 +1,6 @@
-export const AddNewItem = () => {
-    return (
-        <h1>Add New Page</h1>
-    );
+import React, { useState, useEffect } from "react";
+
+function AddNewItem() {
+
 }
+export default AddNewItem
