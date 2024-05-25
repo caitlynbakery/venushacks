@@ -1,5 +1,7 @@
-export const Search = () => {
+//import React, { useState } from "react";
+const Search = () => {
     return (
         <h1>Search Page</h1>
     );
 }
+export default Search
