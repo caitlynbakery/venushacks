@@ -17,7 +17,8 @@ var pool = new Pool({
 // create schema
 (async () => {
     client = await pool.connect();
-    client.query("create table if not exists products (id UUID primary key, name STRING, desc_text STRING, price DECIMAL)");
+    client.query("create table if not exists product (id UUID primary key, name STRING, desc_text STRING, image STRING, price DECIMAL)");
+    client.query("create table if not exists users (id UUID primary key, name STRING, password STRING)")
     // console.log(client)
 })()
 
@@ -26,25 +27,31 @@ app.use(cors());
 app.use(express.urlencoded())
 app.use(express.json());
 
-app.post("/buynewitem", async (req, res)=> {
-
-})
+app.post("/createnewuser", async (req, res) => {
+  console.log('create new user')
+  c = await client.query(``)
+}) 
 
 app.post("/addnewproduct", async (req, res) => {
   console.log("add new product")
   console.log(req.body)
   var data = req.body
-  if (!data.name || !data.desc_text || !data.price){
+  console.log(data)
+  console.log(typeof(data.price_text))
+  console.log(data.name, data.desc_text, data.price_text, data.image)
+  if (!data.name || !data.desc_text || !data.price_text || !data.image){
     return res.status(400).send("Missing Parameters")
   }
-  
-  c = await client.query(`INSERT INTO products (id, name, desc_text, price) VALUES ('${uuidv4()}', '${data.name}', '${data.desc_text}', ${data.price})`)
+  console.log(`('${uuidv4()}', '${data.name}', '${data.desc_text}', '${data.image}', ${data.price_text})`)
+  // c = await client.query(`INSERT INTO product (id, name, desc_text, image, price) VALUES ('${uuidv4()}', 'test', 'test', 'test_img', '2.0')`)
+  c = await client.query(`INSERT INTO product (id, name, desc_text, image, price) VALUES ('${uuidv4()}', '${data.name}', '${data.desc_text}', '${data.image}', '${data.price_text}')`)
   res.send("Successfully created ")
 })
 
 app.get("/showproduct", async (req, res) => {
   console.log("show product")
-  c = await client.query(`select * FROM products;`);
+  x = req.body
+  c = await client.query(`select * FROM product WHERE name == ${x};`);
   x = res.json(c.rows)
   // for (a in x){
   //   res.send(a["id"], a["name"], a["price"])
