@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 
-function Search() {
-
+const Search = () => {
+    return (
+        <h1>Search Page</h1>
+    );
 }
 export default Search
