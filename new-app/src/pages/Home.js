@@ -10,7 +10,6 @@ const Home = () => {
   const navigate = useNavigate()
   const goToNewPage=()=>{
     navigate("/filterproduct")
-  
   }
 
   function handleChange(e) {
@@ -55,17 +54,13 @@ const Home = () => {
                       <button type="submit" className="btn px-2 py-2 text-white bg-purple-500 border border-puruple-100">Submit</button>
                   </div>
                   <div class="card-body" style={{flexDirection: "row", display: "flex"}}>
-                    <h2 class="card-title">Product</h2>
-                    <p>Price</p>
                     <div class="card-actions justify-end">
-                      <button class="px-2 py-2 text-white bg-purple-500 border border-puruple-100">Add to Cart</button>
                     </div>
                   </div>
               </form>
           </div>
-          <div style={{display: 'flex', justifyContent: 'auto'}}> {
+          <div className="flex justify-center flex-wrap gap-6 p-4"> {
                 response && response.map(product => (
-
                   <Card
                     name={product.name}
                     desc={product.desc}
