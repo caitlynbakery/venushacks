@@ -6,10 +6,10 @@ import {
   Route,
 } from "react-router-dom";
 
-import { AddNewItem } from "./pages/AddNewItem";
-import {Products} from "./pages/Products";
-import {Search} from "./pages/Search";
-import {Home} from "./pages/Home";
+import  AddNewItem from "./pages/AddNewItem";
+import Products from "./pages/Products";
+import Search from "./pages/Search";
+import Home from "./pages/Home";
 
 
 function App() {
