@@ -10,6 +10,7 @@ import AddNewItem from "./pages/AddNewItem";
 import Products from "./pages/Products";
 import Search from "./pages/Search";
 import Home from "./pages/Home";
+import Login from "./pages/LogInUser";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                     element={<Home />}
                 />
                 <Route path="/search" element={<Search />} />
+                <Route path="/login" element={<Login/>} />
                 {/* <Route
                     path="/product"
                     element={<Products />}

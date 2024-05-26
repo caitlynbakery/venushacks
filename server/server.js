@@ -17,9 +17,10 @@ var pool = new Pool({
 // create schema
 (async () => {
     client = await pool.connect();
-    client.query("create table if not exists product (id UUID primary key, name STRING, desc_text STRING, image STRING, price DECIMAL)");
-    client.query("create table if not exists users (id UUID primary key, name STRING, password STRING)")
-    // console.log(client)
+    // foreign key seller_id references users(id)
+    client.query("create table if not exists users (id UUID primary key, name STRING, password STRING)");
+    client.query("create table if not exists my_product (id UUID primary key, seller_id UUID, name STRING, desc_text STRING, image STRING, price DECIMAL)");
+    
 })()
 
 
@@ -28,34 +29,42 @@ app.use(express.urlencoded())
 app.use(express.json());
 
 app.post("/createnewuser", async (req, res) => {
+
   console.log('create new user')
-  c = await client.query(``)
+  console.log(req.body.name)
+  var data = req.body
+  if (!data.name || !data.password) {
+    return res.status(400).send("Missing Parameters")
+  }
+  x = await client.query(`select id FROM USER WHERE name = '${data.name.replace('\n', '')}' and password = '${data.password.replace('\n', '')}`)
+  if (x != null) {
+    console.log(x)
+    console.log('id alredy found, sign up instead')
+  } else {
+    c = await client.query(`INSERT INTO users (id, name, password) VALUES ('${uuidv4()}', '${data.name},' '${data.password}')`)
+    res.send("Successfully created")
+    console.log(c)
+  }
+  
 }) 
 
 app.post("/addnewproduct", async (req, res) => {
-  console.log("add new product")
-  console.log(req.body)
+  
   var data = req.body
-  console.log(data)
-  console.log(typeof(data.price_text))
-  console.log(data.name, data.desc_text, data.price_text, data.image)
   if (!data.name || !data.desc_text || !data.price_text || !data.image){
     return res.status(400).send("Missing Parameters")
   }
-  console.log(`('${uuidv4()}', '${data.name}', '${data.desc_text}', '${data.image}', ${data.price_text})`)
   // c = await client.query(`INSERT INTO product (id, name, desc_text, image, price) VALUES ('${uuidv4()}', 'test', 'test', 'test_img', '2.0')`)
-  c = await client.query(`INSERT INTO product (id, name, desc_text, image, price) VALUES ('${uuidv4()}', '${data.name}', '${data.desc_text}', '${data.image}', '${data.price_text}')`)
+  seller_id = await client.query(req.user)
+  c = await client.query(`INSERT INTO my_product (id, seller_id, name, desc_text, image, price) VALUES ('${uuidv4()}', '${seller_id}' '${data.name}', '${data.desc_text}', '${data.image}', '${data.price_text}')`)
   res.send("Successfully created ")
 })
 
-app.get("/showproduct", async (req, res) => {
+app.get("/filterproduct", async (req, res) => {
   console.log("show product")
   x = req.body
-  c = await client.query(`select * FROM product WHERE name == ${x};`);
+  c = await client.query(`select * FROM my_product WHERE name = ${x};`);
   x = res.json(c.rows)
-  // for (a in x){
-  //   res.send(a["id"], a["name"], a["price"])
-  // }
 })
 
 app.listen(8000, () => {
